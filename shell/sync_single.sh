@@ -63,7 +63,7 @@ do
 	while [ $RETRY -le $EACH_SOURCE_MAX_RETRY ]
 	do
 		LOG=$2.$(($COUNT+1)).$RETRY.log
-		"$SYNC_ROOT"shell/sync_sub.sh $1 ${source[$COUNT]} $TARGET $2.$(($COUNT+1)).$RETRY.log &
+		"$SYNC_ROOT"shell/sync_sub.sh $1 ${source[$COUNT]} $TARGET $LOG &
 		SUB_PID=$!
 		sleep 3s
 		
@@ -95,6 +95,17 @@ do
 		else
                         echo -e "[\033[33m$3\033[0m][\033[32m`date +%Y-%m-%d\ %H:%M:%S`\033[0m]The result is \033[33mNOT finished yet\033[0m" | tee -a $MAIN_LOG
 		fi
+		ERR_NUM=${#SKIP_ERRORS[@]}
+		TEST_COUNT=0
+		while [ $TEST_COUNT -lt $ERR_NUM ]
+		do
+			if [ "`tail -1 $LOG | grep "${SKIP_ERRORS[$TEST_COUNT]}"`" != "" ] ; then
+				RETRY=$EACH_SOURCE_MAX_RETRY
+				break
+			else
+				TEST_COUNT=$(($TEST_COUNT+1))
+			fi
+		done
 		RETRY=$(($RETRY+1))
 	done
 	if [ "$STATUS" == "finished" ] ; then
