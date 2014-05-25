@@ -77,13 +77,13 @@ do
                 SIZE=`echo $TAIL | awk '{print $4}'`
         elif [ "`echo $TAIL | grep "rsync error"`" != "" ] ; then
                 STATUS=error
-                SIZE=`cat $LAST_STAT | grep "^$NAME\|" | awk -F '|' '{print $2}'`
+                SIZE=`cat $LAST_STAT | grep ^$NAME\| | awk -F '|' '{print $2}'`
         elif [ -e $SYNC_LOCK ] ; then
                 STATUS=syncing
-                SIZE=`cat $LAST_STAT | grep "^$NAME\|" | awk -F '|' '{print $2}'`
+                SIZE=`cat $LAST_STAT | grep ^$NAME\| | awk -F '|' '{print $2}'`
         else
                 STATUS=error
-                SIZE=`cat $LAST_STAT | grep "^$NAME\|" | awk -F '|' '{print $2}'`
+                SIZE=`cat $LAST_STAT | grep ^$NAME\| | awk -F '|' '{print $2}'`
         fi
         echo "$NAME|$SIZE|$SOURCE|$START_TIME|$END_TIME|$STATUS" &>> $STAT_BUFFER
         COUNT=`expr $COUNT + 1`
