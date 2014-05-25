@@ -46,9 +46,14 @@ fi
 trap "rm -f ${STAT_LOCK}; exit 0" 0 1 2 3 9 15
 
 STAT_FILE="$VAR_DIR"stat
+LAST_STAT="$TMP_DIR"stat.last.tmp
 STAT_BUFFER="$TMP_DIR"stat.tmp
 
-LAST_STAT=`cat $STAT_FILE`
+if [ ! -f $STAT_FILE ] ; then
+        touch $STAT_FILE
+fi
+cp $STAT_FILE $LAST_STAT
+
 > $STAT_BUFFER
 NAME_LIST="$TMP_DIR"name.tmp
 grep -v "^#\|^$" "$SYNC_ROOT"sync.conf | grep "(){" | awk -F '(' '{print $1}' > $NAME_LIST
@@ -72,13 +77,13 @@ do
                 SIZE=`echo $TAIL | awk '{print $4}'`
         elif [ "`echo $TAIL | grep "rsync error"`" != "" ] ; then
                 STATUS=error
-                SIZE=`echo $LAST_STAT | grep "^$NAME\|" | awk -F '|' '{print $2}'`
+                SIZE=`cat $LAST_STAT | grep "^$NAME\|" | awk -F '|' '{print $2}'`
         elif [ -e $SYNC_LOCK ] ; then
                 STATUS=syncing
-                SIZE=`echo $LAST_STAT | grep "^$NAME\|" | awk -F '|' '{print $2}'`
+                SIZE=`cat $LAST_STAT | grep "^$NAME\|" | awk -F '|' '{print $2}'`
         else
                 STATUS=error
-                SIZE=`echo $LAST_STAT | grep "^$NAME\|" | awk -F '|' '{print $2}'`
+                SIZE=`cat $LAST_STAT | grep "^$NAME\|" | awk -F '|' '{print $2}'`
         fi
         echo "$NAME|$SIZE|$SOURCE|$START_TIME|$END_TIME|$STATUS" &>> $STAT_BUFFER
         COUNT=`expr $COUNT + 1`
