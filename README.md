@@ -6,10 +6,10 @@ Sync from multi-sources to localhost via rsync, with one-off simple configuratio
 0. GNU General Public License version 3 (GPLv3)
 ===
 GNU通用公共许可证第三版
->**&lt;rsync-mirrors-manager>**
+>**&lt;rsync-mirrors-manager>**<br>
 >**Copyright (C) &lt;2014>  &lt;RangerCD>**
 >
->**&lt;rsync-mirrors-manager>**
+>**&lt;rsync-mirrors-manager>**<br>
 >**版权所有 (C) &lt;2014>  &lt;RangerCD>**
 ><br>
 >This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.<br>
@@ -79,23 +79,36 @@ GNU通用公共许可证第三版
 3. How to use
 ===
 如何应用
+>Basic/基本:
+>---
 >Once you configured all above correctly, you are able to start sync in simple command below:<br>
 >一旦您正确地完成以上配置，您就可以用下面这句简单的命令开始同步：
->>./sync.sh**
+>>**./sync.sh**
 >
 >**\*Make sure your current position is where you put this shell**<br>
 >**\*确保您当前位置为您放置这个脚本的目录**
-
 
 >If you want to sync part of your mirrors, you are able to start with this command:<br>
 >如果您想要同步部分镜像，您可以通过这句命令实现：
->>**./sync.sh example ...**
+>>**./sync.sh example1 example2 ...**
 >
 >**\*Make sure your current position is where you put this shell**<br>
 >**\*确保您当前位置为您放置这个脚本的目录**
 >
->**\*\*example ...are the function name you added in "sync.conf"**<br>
->**\*\*example ...是您在“sync.conf”中添加的函数名**
+>**\*\*"example1 example2 ..."are the function name you added in "sync.conf"**<br>
+>**\*\*"example1 example2 ..."是您在“sync.conf”中添加的函数名**
+
+>Options/选项:
+>---
+>>**--help**
+>
+>Print the README.md<br>
+>打印README.md
+><br><br>
+>>**--parallel** or **-p**
+>
+>Sync will be start in parallel mode<br>
+>同步将以并行模式开始
 
 4. Contact information
 ===
