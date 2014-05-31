@@ -11,7 +11,7 @@ GNU通用公共许可证第三版
 >
 >**&lt;rsync-mirrors-manager>**<br>
 >**版权所有 (C) &lt;2014>  &lt;RangerCD>**
-><br>
+><br><br>
 >This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.<br>
 >本程序为自由软件；您可依据自由软件基金会所发表的GNU通用公共授权条款，对本程序再次发布和/或修改；无论您依据的是本授权的第三版，或（您可选的）任一日后发行的版本。
 >
@@ -110,7 +110,23 @@ GNU通用公共许可证第三版
 >Sync will be start in parallel mode<br>
 >同步将以并行模式开始
 
-4. Contact information
+4. How to read "sync.log"
+===
+如何阅读"sync.log"
+>The only identifier of each parallel instance is the first number of each line which is followed by date and time.<br>
+>每个并行实例的唯一标示符是每行位于日期时间之前的第一个数字。
+>
+>>**...**<br>
+>>[48][2014-05-31-14-11-04][Checking]Prepare to terminate<br>
+>>[48][2014-05-31-14-11-14][Terminating]Stopping stat watcher<br>
+>>[57][2014-05-31 14:13:33]The result is finished<br>
+>>[57][2014-05-31-14-13-33][Finished]Mirror named "example" has been synced<br>
+>>**...**<br>
+>
+>It's obvious that here are two instances of sync, marked with "[48]" and "[57]".<br>
+>很明显这里有两个同步实例，以“[48]”与“[57]”标识。
+
+5. Contact information
 ===
 联系方式
 >Any problem please contact me.<br>

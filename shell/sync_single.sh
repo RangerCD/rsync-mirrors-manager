@@ -45,11 +45,13 @@ fi
 SYNC_SINGLE_LOCK="$VAR_DIR$1".syncing.single.lock
 
 if [ -e $SYNC_SINGLE_LOCK ] ; then
-        exit 0
-else
-        touch $SYNC_SINGLE_LOCK
-        chmod 600 $SYNC_SINGLE_LOCK
+	LAST_PID=`cat $SYNC_SINGLE_LOCK`
+	if [ "`ps aux | grep sync_single.sh | awk '{print $2}' | grep "$LAST_PID"`" != "" ] ; then
+		exit 0
+	fi
 fi
+echo $$ > $SYNC_SINGLE_LOCK
+chmod 600 $SYNC_SINGLE_LOCK
 
 trap "rm -f ${SYNC_SINGLE_LOCK}; exit 0" 0 1 2 3 9 15
 

@@ -43,9 +43,14 @@ elif [ "`echo $* | sed 's/ /\n/g' | grep "^--parallel$\|^-p$"`" == "" ] ; then
 else
 	NAME_LIST="$TMP_DIR"name."$TIMES".parallel.tmp
 	SUM=$(($#-1))
-	EACH=$(($SUM/$PARALLEL_POOL+1))
-	echo $* | sed 's/ /\n/g' | grep -v "^-parallel$\|^-p$" > $NAME_LIST
+	EACH=$((($SUM-1)/$PARALLEL_POOL+1))
+	echo $* | sed 's/ /\n/g' | grep -v "^--parallel$\|^-p$" > $NAME_LIST
 	NUM=`cat $NAME_LIST | wc -l`
+	if [ "$NUM" -eq 0 ] ; then
+		grep -v "^#\|^$" "$SYNC_ROOT"sync.conf | grep "(){" | awk -F '(' '{print $1}' > $NAME_LIST
+		NUM=`cat $NAME_LIST | wc -l`
+		EACH=$((($NUM-1)/$PARALLEL_POOL+1))
+	fi
 	COUNT=0
 	while [ "$COUNT" -lt "$PARALLEL_POOL" ]
 	do

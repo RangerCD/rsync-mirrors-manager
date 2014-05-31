@@ -37,11 +37,13 @@ source $(cd `dirname $0`; pwd)/../sync.conf
 STAT_LOCK="$VAR_DIR"stating.lock
 
 if [ -e $STAT_LOCK ] ; then
+	LAST_PID=`cat $STAT_LOCK`
+	if [ "`ps aux | grep stat.sh | awk '{print $2}' | grep "$LAST_PID"`" != "" ] ; then
         exit 0
-else
-        touch $STAT_LOCK
-        chmod 600 $STAT_LOCK
+    fi
 fi
+echo $$ > $STAT_LOCK
+chmod 600 $STAT_LOCK
 
 trap "rm -f ${STAT_LOCK}; exit 0" 0 1 2 3 9 15
 

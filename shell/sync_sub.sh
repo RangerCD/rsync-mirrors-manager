@@ -46,11 +46,13 @@ fi
 SYNC_SUB_LOCK="$VAR_DIR$1".syncing.sub.lock
 
 if [ -e $SYNC_SUB_LOCK ] ; then
-        exit 0
-else
-        touch $SYNC_SUB_LOCK
-        chmod 600 $SYNC_SUB_LOCK
+	LAST_PID=`cat $SYNC_SUB_LOCK`
+	if [ "`ps aux | grep sync_sub.sh | awk '{print $2}' | grep "$LAST_PID"`" != "" ] ; then
+		exit 0
+	fi
 fi
+echo $$ > $SYNC_SUB_LOCK
+chmod 600 $SYNC_SUB_LOCK
 
 trap "rm -f ${SYNC_SUB_LOCK}; exit 0" 0 1 2 3 9 15
 
