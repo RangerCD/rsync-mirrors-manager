@@ -67,9 +67,6 @@ if [ ! -d "$TMP_DIR" ] ; then
 	echo -e "[\033[33m$TIMES\033[0m][\033[32m$REAL_TIME\033[0m][\033[33mInit\033[0m]Making directory \033[31m\"$TMP_DIR\"\033[0m" | tee -a $MAIN_LOG
 	mkdir $TMP_DIR
 fi
-echo -e "[\033[33m$TIMES\033[0m][\033[32m`date +%Y-%m-%d-%H-%M-%S`\033[0m][\033[32mInit\033[0m]Starting stat watcher"i | tee -a $MAIN_LOG
-"$SYNC_ROOT"shell/stat_watcher.sh &
-WATCHER_PID=$!
 
 echo -e "[\033[33m$TIMES\033[0m][\033[32m`date +%Y-%m-%d-%H-%M-%S`\033[0m][\033[32mInit\033[0m]Checking for logs" | tee -a $MAIN_LOG
 check_log
@@ -98,12 +95,4 @@ do
 	COUNT=$(($COUNT+1))
 done
 
-echo -e "[\033[33m$TIMES\033[0m][\033[32m`date +%Y-%m-%d-%H-%M-%S`\033[0m][\033[32mChecking\033[0m]Prepare to terminate" | tee -a $MAIN_LOG
-sleep 10s
-
-echo -e "[\033[33m$TIMES\033[0m][\033[32m`date +%Y-%m-%d-%H-%M-%S`\033[0m][\033[32mTerminating\033[0m]Stopping stat watcher" | tee -a $MAIN_LOG
-if [ "`ps aux | grep "$WATCHER_PID" | grep /shell/stat_watcher.sh`" != "" ] ; then
-	kill -9 $WATCHER_PID
-else
-	"$SYNC_ROOT"shell/stat.sh
-fi
+echo -e "[\033[33m$TIMES\033[0m][\033[32m`date +%Y-%m-%d-%H-%M-%S`\033[0m][\033[32mChecking\033[0m]Terminating" | tee -a $MAIN_LOG

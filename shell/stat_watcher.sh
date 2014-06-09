@@ -51,4 +51,7 @@ while true
 do
         "$SYNC_ROOT"shell/stat.sh &
         sleep 10s
+        if [ "`ps aux | grep /sync_main.sh | grep -v "grep sync_main.sh"`" == "" ] ; then
+        	exit 0
+        fi
 done

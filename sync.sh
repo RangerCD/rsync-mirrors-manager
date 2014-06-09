@@ -34,6 +34,8 @@
 
 source $(cd `dirname $0`; pwd)/sync.conf
 
+"$SYNC_ROOT"shell/stat_watcher.sh &
+
 if [ $# -eq 0 ] ; then
 	"$SYNC_ROOT"shell/sync_main.sh &
 elif [ "`echo $* | sed 's/ /\n/g' | grep "^--help$"`" == "" ] ; then
@@ -41,7 +43,7 @@ elif [ "`echo $* | sed 's/ /\n/g' | grep "^--help$"`" == "" ] ; then
 elif [ "`echo $* | sed 's/ /\n/g' | grep "^--parallel$\|^-p$"`" == "" ] ; then
 	"$SYNC_ROOT"shell/sync_main.sh $* &
 else
-	NAME_LIST="$TMP_DIR"name."$TIMES".parallel.tmp
+	NAME_LIST="$TMP_DIR"name.parallel.tmp
 	SUM=$(($#-1))
 	EACH=$((($SUM-1)/$PARALLEL_POOL+1))
 	echo $* | sed 's/ /\n/g' | grep -v "^--parallel$\|^-p$" > $NAME_LIST
